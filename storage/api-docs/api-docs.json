@@ -1,0 +1,479 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Documentation",
+        "description": "Dokumentasi API untuk Project KGB",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/register": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Register user baru",
+                "operationId": "8a56853624e025573120a09a4c75d468",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "username",
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "username": {
+                                        "type": "string",
+                                        "example": "john_doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "john@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "secret123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User registered successfully"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Login dan dapatkan token Sanctum",
+                "operationId": "a3b306d14572d1f4bd6c064b3233e7b8",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "username",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "username": {
+                                        "type": "string",
+                                        "example": "john_doe"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "secret123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login success, token returned"
+                    },
+                    "401": {
+                        "description": "Invalid credentials"
+                    }
+                }
+            }
+        },
+        "/api/profile": {
+            "get": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Ambil data profil user",
+                "operationId": "d32e56b6274eb68e980da6d91fbe9fd8",
+                "responses": {
+                    "200": {
+                        "description": "User profile returned"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/logout": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Logout user (hapus semua token aktif)",
+                "operationId": "fe8f3429cd6979b3b4517e186505f9f9",
+                "responses": {
+                    "200": {
+                        "description": "Successfully logged out"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/skkgb/create": {
+            "post": {
+                "tags": [
+                    "SK KGB"
+                ],
+                "summary": "Tambah data SK KGB",
+                "operationId": "0c4b363ca6c60889a5c63e840664650c",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nama",
+                                    "NIP",
+                                    "nomor_surat",
+                                    "tanggal_surat",
+                                    "id_gol_pangkat",
+                                    "id_jabatan",
+                                    "id_unit_kerja",
+                                    "gaji_pokok_lama",
+                                    "tmt_gaji_baru",
+                                    "masa_kerja_baru_thn",
+                                    "masa_kerja_baru_bln",
+                                    "gaji_pokok_baru",
+                                    "tmt_kgb_berikutnya",
+                                    "id_pejabat"
+                                ],
+                                "properties": {
+                                    "nama": {
+                                        "type": "string",
+                                        "example": "Budi Santoso"
+                                    },
+                                    "NIP": {
+                                        "type": "integer",
+                                        "example": 1234567890
+                                    },
+                                    "nomor_surat": {
+                                        "type": "string",
+                                        "example": "SK-001/2025"
+                                    },
+                                    "tanggal_surat": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-10-02"
+                                    },
+                                    "id_gol_pangkat": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "id_jabatan": {
+                                        "type": "integer",
+                                        "example": 3
+                                    },
+                                    "id_unit_kerja": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "gaji_pokok_lama": {
+                                        "type": "integer",
+                                        "example": 5000000
+                                    },
+                                    "tmt_gaji_baru": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-11-01"
+                                    },
+                                    "masa_kerja_baru_thn": {
+                                        "type": "integer",
+                                        "example": 5
+                                    },
+                                    "masa_kerja_baru_bln": {
+                                        "type": "integer",
+                                        "example": 6
+                                    },
+                                    "gaji_pokok_baru": {
+                                        "type": "integer",
+                                        "example": 5500000
+                                    },
+                                    "tmt_kgb_berikutnya": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2027-11-01"
+                                    },
+                                    "id_pejabat": {
+                                        "type": "integer",
+                                        "example": 7
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Data SK KGB berhasil ditambahkan"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/skkgb": {
+            "get": {
+                "tags": [
+                    "SK KGB"
+                ],
+                "summary": "Ambil semua data SK KGB",
+                "operationId": "2bda3d1db94568d32e4143666be533cc",
+                "responses": {
+                    "200": {
+                        "description": "Data SK KGB berhasil diambil"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/skkgb/{id}": {
+            "get": {
+                "tags": [
+                    "SK KGB"
+                ],
+                "summary": "Ambil detail SK KGB berdasarkan ID",
+                "operationId": "eca3c0c281bca44d33612a2b2292e2f8",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID SK KGB",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Data SK KGB berhasil diambil"
+                    },
+                    "404": {
+                        "description": "Data tidak ditemukan"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "SK KGB"
+                ],
+                "summary": "Update data SK KGB",
+                "operationId": "c8fd7150ba791f88f5b1ddd60236034a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID SK KGB",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nama": {
+                                        "type": "string",
+                                        "example": "Budi Update"
+                                    },
+                                    "NIP": {
+                                        "type": "integer",
+                                        "example": 1234567890
+                                    },
+                                    "nomor_surat": {
+                                        "type": "string",
+                                        "example": "SK-002/2025"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Data SK KGB berhasil diupdate"
+                    },
+                    "404": {
+                        "description": "Data tidak ditemukan"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "SK KGB"
+                ],
+                "summary": "Hapus data SK KGB",
+                "operationId": "7cdbafa6fc4250986ffce9af55270e15",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID SK KGB",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Data SK KGB berhasil dihapus"
+                    },
+                    "404": {
+                        "description": "Data tidak ditemukan"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/pegawai-per-bulan/{tahun}": {
+            "get": {
+                "tags": [
+                    "Statistik"
+                ],
+                "summary": "Statistik jumlah SK KGB per bulan dalam tahun tertentu",
+                "description": "Mengembalikan jumlah data SK KGB yang dibuat per bulan untuk tahun yang dipilih",
+                "operationId": "a9521836ff91a552cf10208f98d1fba8",
+                "parameters": [
+                    {
+                        "name": "tahun",
+                        "in": "path",
+                        "description": "Tahun yang ingin dilihat statistiknya",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 2025
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Statistik per bulan berhasil diambil",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "bulan": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "jumlah": {
+                                                "type": "integer",
+                                                "example": 5
+                                            },
+                                            "nama_bulan": {
+                                                "type": "string",
+                                                "example": "Januari"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Authentication",
+            "description": "Authentication"
+        },
+        {
+            "name": "SK KGB",
+            "description": "SK KGB"
+        },
+        {
+            "name": "Statistik",
+            "description": "Statistik"
+        }
+    ]
+}
