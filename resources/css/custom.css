@@ -1,0 +1,27 @@
+/* ==== Sidebar Style ==== */
+.main-sidebar {
+  background-color: #1F1B4C !important;
+}
+.nav-sidebar .nav-link.active {
+  background-color: #5A4AE3 !important;
+  color: #fff !important;
+}
+.brand-link {
+  background: #1F1B4C !important;
+  color: #fff !important;
+}
+
+/* ==== Buttons ==== */
+.btn-primary {
+  background-color: #5A4AE3 !important;
+  border-color: #5A4AE3 !important;
+}
+.btn-success {
+  background-color: #28a745 !important;
+  border-color: #28a745 !important;
+}
+
+/* ==== Texts ==== */
+body {
+  font-family: 'Poppins', sans-serif;
+}
