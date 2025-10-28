@@ -31,8 +31,15 @@
         <li class="nav-item">
           <a href="{{ route('surat.index') }}" class="nav-link {{ request()->is('surat*') ? 'active' : '' }}">
             <i class="nav-icon fas fa-file-alt"></i>
-            <p>Surat</p>
+            <p>Cetak Surat</p>
           </a>
+        </li>
+
+        {{-- Tambahkan menu baru: Manajemen Dokumen --}}
+        <li class="nav-item mb-2">
+            <a href="{{ route('dokumen.index') }}" class="nav-link text-white">
+                <i class="fas fa-folder me-2"></i> Manajemen Dokumen
+            </a>
         </li>
 
         <li class="nav-item">

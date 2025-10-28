@@ -148,14 +148,5 @@ class PegawaiController extends Controller
 
         return redirect()->route('pegawai.index')->with('success', 'Data pegawai berhasil dihapus.');
     }
-
-    public function cetak($id)
-    {
-        $surat = \App\Models\SkKgb::with(['jabatan', 'golongan', 'unitKerja', 'pejabat'])
-            ->findOrFail($id);
-    
-        return view('surat.cetak', compact('surat'));
-    }
-    
 }
  

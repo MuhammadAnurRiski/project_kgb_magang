@@ -3,75 +3,66 @@
 @section('title', 'Dashboard')
 
 @section('content')
-<div class="container-fluid py-3">
-    <!-- 🟢 Header Dashboard -->
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h5 class="fw-bold text-secondary">Dashboard</h5>
-        <div class="d-flex align-items-center">
-            <span class="me-2 text-muted">Kenaikan Gaji Berkala Tahun</span>
-            <select id="tahunSelect" class="form-select form-select-sm w-auto">
-                @for ($t = date('Y'); $t >= 2020; $t--)
-                    <option value="{{ $t }}" {{ request('tahun', date('Y')) == $t ? 'selected' : '' }}>
-                        {{ $t }}
-                    </option>
-                @endfor
-            </select>
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        {{-- 🔹 Judul tanpa icon --}}
+        <h3 class="fw-bold">Dashboard</h3>
+
+        {{-- 🔽 Dropdown Tahun --}}
+        <div>
+            <label class="me-2 fw-semibold">Kenaikan Gaji Berkala Tahun</label>
+            <div class="btn-group">
+                <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    {{ $tahun ?? date('Y') }}
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    @for ($year = 2023; $year <= 2040; $year++)
+                        <li>
+                            <a class="dropdown-item {{ $tahun == $year ? 'active fw-bold' : '' }}"
+                               href="{{ route('dashboard', ['tahun' => $year]) }}">
+                               {{ $year }}
+                            </a>
+                        </li>
+                    @endfor
+                </ul>
+            </div>
         </div>
     </div>
 
-    <!-- 🟢 Tabel Statistik KGB -->
-    <div class="card shadow-sm border-0">
-        <div class="card-body p-0">
-            <table class="table table-hover table-bordered mb-0 align-middle">
-                <thead class="table-light text-center">
-                    <tr>
-                        <th style="width: 60px;">No</th>
-                        <th>Bulan</th>
-                        <th style="width: 250px;">Jumlah Pegawai KGB</th>
-                        <th style="width: 250px;">Jumlah Surat KGB telah Tercetak</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($bulanList as $index => $namaBulan)
-                        @php $bulan = $index + 1; @endphp
-                        <tr>
-                            <td class="text-center">{{ $bulan }}</td>
-                            <td>
-                                <!-- 🔹 Link langsung menuju halaman daftar pegawai bulan -->
-                                <a href="{{ url('/dashboard/pegawai/' . request('tahun', date('Y')) . '/' . $bulan) }}"
-                                   class="fw-semibold text-primary text-decoration-none bulan-link"
-                                   data-bulan="{{ $bulan }}"
-                                   data-nama="{{ $namaBulan }}">
-                                   {{ $namaBulan }}
-                                </a>
-                            </td>
-                            <td class="text-center">{{ $jumlahPegawai[$index] ?? 0 }}</td>
-                            <td class="text-center">{{ $jumlahSurat[$index] ?? 0 }}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-    </div>
+    {{-- 🔹 Tabel Data --}}
+    <table class="table table-hover table-bordered align-middle">
+        <thead class="table-light">
+            <tr>
+                <th style="width: 5%;">No</th>
+                <th>Bulan</th>
+                <th class="text-end">Jumlah Pegawai KGB</th>
+            </tr>
+        </thead>
+        <tbody>
+            @php
+                $totalPegawai = 0;
+            @endphp
+
+            @foreach ($bulanList as $index => $bulan)
+                @php
+                    $jumlah = $data[$bulan] ?? 0;
+                    $totalPegawai += $jumlah;
+                @endphp
+                <tr>
+                    <td>{{ $index + 1 }}</td>
+                    <td>{{ $bulan }}</td>
+                    <td class="text-end">{{ $jumlah }}</td>
+                </tr>
+            @endforeach
+        </tbody>
+
+        {{-- 🔸 Baris Total dengan warna biru --}}
+        <tfoot style="background-color: #1e1b4b; color: white; font-weight: bold;">
+            <tr>
+                <td colspan="2" class="text-center">Total</td>
+                <td class="text-end">{{ $totalPegawai }}</td>
+            </tr>
+        </tfoot>
+    </table>
 </div>
 @endsection
-
-@push('scripts')
-<script>
-$(document).ready(function() {
-    // 🔹 Ganti tahun => reload halaman dengan parameter tahun
-    $('#tahunSelect').on('change', function() {
-        const tahun = $(this).val();
-        window.location.href = `/dashboard?tahun=${tahun}`;
-    });
-
-    // 🔹 Klik bulan => langsung redirect ke halaman detail (tanpa preventDefault)
-    $(document).on('click', '.bulan-link', function(e) {
-        const tahun = $('#tahunSelect').val();
-        const bulan = $(this).data('bulan');
-        const url = `/dashboard/pegawai/${tahun}/${bulan}`;
-        window.location.href = url;
-    });
-});
-</script>
-@endpush

@@ -41,7 +41,7 @@
 
     {{-- Footer --}}
     <footer class="main-footer text-center py-2 small bg-white border-top">
-        <strong>© {{ date('Y') }} Sistem KGB Kemenkumham.</strong> Semua hak dilindungi.
+        <strong>© {{ date('Y') }} Sistem KGB Kemenkum.</strong> Semua hak dilindungi.
     </footer>
 
 </div>

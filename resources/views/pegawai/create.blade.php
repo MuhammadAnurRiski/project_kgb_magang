@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.blank')
 
 @section('title', 'Tambah Data Pegawai')
 
@@ -6,8 +6,9 @@
 <div class="container py-4">
     <div class="card shadow-sm">
         {{-- Header Hijau --}}
-        <div class="card-header bg-success text-white">
+        <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
             <h5 class="mb-0">Tambah Data Pegawai</h5>
+            <a href="{{ route('pegawai.index') }}" class="text-white text-decoration-none fs-4" style="opacity: 0.7;">×</a>
         </div>
 
         {{-- FORM START --}}
@@ -140,13 +141,23 @@
                 </div>
             </div>
 
-            {{-- Tukar posisi: KGB Selanjutnya ↔ Nominal Gaji --}}
+            {{-- 🔹 Tambahan: Masa Kerja KGB, Gaji & KGB Selanjutnya (tanpa jarak tambahan) --}}
             <div class="row mb-3">
                 <div class="col-md-6">
-                    <label class="fw-bold">Nominal Gaji</label>
-                    <div class="input-group">
-                        <span class="input-group-text">Rp</span>
-                        <input type="text" name="gaji_pokok_lama" class="form-control" placeholder="Rp.xxx.xxx" required>
+                    <label class="fw-bold">Masa Kerja (KGB)</label>
+                    <div class="d-flex gap-2">
+                        <select name="masa_kerja_kgb_tahun" class="form-select" required>
+                            <option value="">Pilih Tahun...</option>
+                            @for ($i = 0; $i <= 33; $i++)
+                                <option value="{{ $i }}">{{ $i }} Tahun</option>
+                            @endfor
+                        </select>
+                        <select name="masa_kerja_kgb_bulan" class="form-select" required>
+                            <option value="">Pilih Bulan...</option>
+                            @for ($i = 0; $i <= 11; $i++)
+                                <option value="{{ $i }}">{{ $i }} Bulan</option>
+                            @endfor
+                        </select>
                     </div>
                 </div>
 
@@ -156,11 +167,20 @@
                 </div>
             </div>
 
+            {{-- 🔹 Gaji (dipindah ke bawah agar lebih rapi) --}}
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="fw-bold">Nominal Gaji</label>
+                    <div class="input-group">
+                        <span class="input-group-text">Rp</span>
+                        <input type="text" name="gaji_pokok_lama" class="form-control" placeholder="Rp.xxx.xxx" required>
+                    </div>
+                </div>
+            </div>
+
             {{-- ========================= BUTTON SIMPAN ========================= --}}
             <div class="text-end mt-4">
-                <button type="submit" class="btn btn-success px-4">
-                    <i class="fas fa-save"></i> Simpan
-                </button>
+                <button type="submit" class="btn btn-success px-4">Simpan</button>
             </div>
         </form>
     </div>
