@@ -29,7 +29,7 @@
           <div class="col-md-6 mb-3">
             <label>Logo Instansi</label><br>
             @if(!empty($pengaturan->logo_instansi))
-              <img src="{{ asset('storage/logos' . $pengaturan->logo_instansi) }}" 
+              <img src="{{ asset('storage/' . $pengaturan->logo_instansi) }}" 
                    alt="Logo Instansi" class="border p-1 mb-2" width="120">
             @endif
             <input type="file" name="logo_instansi" class="form-control">
@@ -40,6 +40,7 @@
             @if(!empty($pengaturan->tanda_tangan))
               <img src="{{ asset('storage/' . $pengaturan->tanda_tangan) }}" 
                    alt="Tanda Tangan" class="border p-1 mb-2" width="120">
+                   
             @endif
             <input type="file" name="tanda_tangan" class="form-control">
           </div>

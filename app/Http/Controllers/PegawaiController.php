@@ -13,6 +13,7 @@ use App\Models\PangkatGolongan;
 
 
 
+
 class PegawaiController extends Controller
 {
     //CRUD pegawai
@@ -116,17 +117,18 @@ public function update(Request $request, $id)
         'nip' => 'required|string|max:18',
         'jabatan' => 'required|string|max:255',
         'pangkat_golongan' => 'required|string|max:255',
-        'tmt_pangkat' => 'required|date',
+        'tmt_pangkat' => 'nullable|date', // tidak wajib
     ]);
 
     $pegawai = Pegawai::findOrFail($id);
-    $pegawai->update([
+    $pegawai->update(array_filter([
         'nama_pegawai' => $request->nama_pegawai,
         'nip' => $request->nip,
         'jabatan' => $request->jabatan,
         'pangkat_golongan' => $request->pangkat_golongan,
         'tmt_pangkat' => $request->tmt_pangkat,
-    ]);
+        
+    ], fn ($value) => !is_null($value)));
 
     return redirect()->route('pegawai.index')->with('success', 'Data pegawai berhasil diperbarui.');
 }
@@ -172,6 +174,9 @@ public function updateKGB(Request $request, $id)
     public function destroy($id)
     {
         $pegawai = Pegawai::findOrFail($id);
+
+         // Hapus surat-surat yang terkait
+    $pegawai->surats()->delete(); // pastikan relasi sudah dibuat di model Pegawai
         $pegawai->delete();
 
         return redirect()->route('pegawai.index')->with('success', 'Pegawai deleted successfully.');

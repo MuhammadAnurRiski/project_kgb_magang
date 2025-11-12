@@ -24,6 +24,7 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware(['admin.auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard/detail', [DashboardController::class, 'detail'])->name('dashboard.detail');
 
     // Route Pegawai
     Route::resource('pegawai', PegawaiController::class,);
@@ -43,7 +44,14 @@ Route::middleware(['admin.auth'])->group(function () {
 
 
     //dokumen
-    Route::resource('dokumen', DokumenController::class,);
+ Route::prefix('dokumen')->name('dokumen.')->group(function () {
+    Route::get('/', [DokumenController::class, 'index'])->name('index');
+    Route::post('/create-folder', [DokumenController::class, 'createFolder'])->name('createFolder');
+    Route::get('/{folderName}', [DokumenController::class, 'showFolder'])->name('showFolder');
+    Route::post('/upload', [DokumenController::class, 'uploadFile'])->name('uploadFile');
+    Route::get('/file/{id}', [DokumenController::class, 'viewFile'])->name('viewFile');
+    Route::delete('/file/{id}', [DokumenController::class, 'deleteFile'])->name('deleteFile');
+});
 
     //pengaturan
     Route::resource('pengaturan', PengaturanController::class,);

@@ -7,6 +7,8 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use App\Models\Surat;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -22,15 +24,18 @@ use Illuminate\Database\Eloquent\Model;
  * @property Carbon|null $tmt_kgb
  * @property int|null $masa_kerja_tahun
  * @property int|null $masa_kerja_bulan
- * @property string|null $nominal_gaji
+ * @property int|null $nominal_gaji
  * @property string|null $no_sk
  * @property string|null $pejabat_penetap
  * @property string|null $jabatan_pejabat_penetap
  * @property Carbon|null $kgb_selanjutnya
- * @property string|null $nominal_gaji_baru
+ * @property int|null $nominal_gaji_baru
  * @property Carbon|null $tanggal
  * @property int|null $mkg_tahun_selanjutnya
  * @property int|null $mkg_bulan_selanjutnya
+ * 
+ * @property Collection|Dokuman[] $dokumen
+ * @property Collection|Surat[] $surats
  *
  * @package App\Models
  */
@@ -47,7 +52,9 @@ class Pegawai extends Model
 		'tmt_kgb' => 'datetime',
 		'masa_kerja_tahun' => 'int',
 		'masa_kerja_bulan' => 'int',
+		'nominal_gaji' => 'int',
 		'kgb_selanjutnya' => 'datetime',
+		'nominal_gaji_baru' => 'int',
 		'tanggal' => 'datetime',
 		'mkg_tahun_selanjutnya' => 'int',
 		'mkg_bulan_selanjutnya' => 'int'
@@ -73,4 +80,14 @@ class Pegawai extends Model
 		'mkg_tahun_selanjutnya',
 		'mkg_bulan_selanjutnya'
 	];
+
+	public function dokumen()
+	{
+		return $this->hasMany(Dokuman::class, 'id_pegawai');
+	}
+
+	public function surats()
+	{
+		return $this->hasMany(Surat::class, 'id_pegawai');
+	}
 }

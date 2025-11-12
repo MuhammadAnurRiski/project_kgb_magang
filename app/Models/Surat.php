@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $unit_kerja
  * @property Carbon|null $tanggal_surat
  * @property string|null $Oleh
+ * @property string|null $nama_golongan
  * 
  * @property Pegawai $pegawai
  *
@@ -38,7 +39,8 @@ class Surat extends Model
 		'id_pegawai',
 		'unit_kerja',
 		'tanggal_surat',
-		'Oleh'
+		'Oleh',
+		'nama_golongan'
 	];
 
 	public function pegawai()

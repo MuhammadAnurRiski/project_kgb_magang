@@ -68,6 +68,18 @@
                  value="{{ $surat->Oleh }}" oninput="syncText(this)">
         </div>
 
+        <div class="mb-3">
+          <label>Golongan</label>
+          <select name="nama_golongan" class="form-control" onchange="syncText(this)">
+          <option value="">-- Pilih Golongan --</option>
+          @foreach ($golongan as $g)
+             <option value="{{ $g }}" {{ $surat->nama_golongan == $g ? 'selected' : '' }}>
+            {{ $g }}
+          </option>
+        @endforeach
+      </select>
+    </div>  
+
         <button type="button" id="saveBtn" class="btn btn-success">Simpan</button>
         <a href="{{ route('surat.cetak', $surat->id) }}"class="btn btn-secondary" target="_blank">
            <i class="fas fa-print"></i> Cetak PDF

@@ -24,28 +24,37 @@
 </div>
 
 
-    <table class="table table-bordered table-striped">
-      <thead class="table-primary">
-        <tr>
-          <th>Bulan</th>
-          <th class="text-center">Jumlah Pegawai KGB</th>
-        </tr>
-      </thead>
-      <tbody>
-        @foreach ($kgbData as $data)
-          <tr>
-            <td>{{ $data['bulan'] }}</td>
-            <td class="text-center">{{ $data['jumlah_pegawai'] }}</td>
-          </tr>
-        @endforeach
-      </tbody>
-      <tfoot class="table-secondary fw-bold">
-        <tr>
-          <td><strong>Total Pegawai</strong></td>
-          <td class="text-center"><strong>{{ $totalPegawai }}</strong></td>
-        </tr>
-      </tfoot>
-    </table>
+   <table class="table table-bordered table-striped">
+  <thead class="table-primary">
+    <tr>
+      <th>Bulan</th>
+      <th class="text-center">Jumlah Pegawai KGB</th>
+      <th class="text-center">Aksi</th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach ($kgbData as $data)
+      <tr>
+        <td>{{ $data['bulan'] }}</td>
+        <td class="text-center">{{ $data['jumlah_pegawai'] }}</td>
+        <td class="text-center">
+          <a href="{{ route('dashboard.detail', ['bulan' => $data['bulan'], 'year' => $selectedYear]) }}"
+             class="btn btn-sm btn-primary">
+            Detail
+          </a>
+        </td>
+      </tr>
+    @endforeach
+  </tbody>
+  <tfoot class="table-secondary fw-bold">
+    <tr>
+      <td><strong>Total Pegawai</strong></td>
+      <td class="text-center"><strong>{{ $totalPegawai }}</strong></td>
+      <td></td>
+    </tr>
+  </tfoot>
+</table>
+
   </div>
 </div>
 @endsection

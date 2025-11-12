@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Pegawai;
+use Carbon\Carbon;
 
 
 class DashboardController extends Controller
@@ -48,4 +49,40 @@ class DashboardController extends Controller
 
         return view('dashboard.index', compact('kgbData', 'totalPegawai', 'availableYears', 'selectedYear'));
     }
+
+    public function detail(Request $request)
+{
+    $bulan = $request->get('bulan');
+    $tahun = $request->get('year');
+
+    // Mapping nama bulan Indonesia ke angka bulan
+    $bulanMap = [
+        'Januari' => 1,
+        'Februari' => 2,
+        'Maret' => 3,
+        'April' => 4,
+        'Mei' => 5,
+        'Juni' => 6,
+        'Juli' => 7,
+        'Agustus' => 8,
+        'September' => 9,
+        'Oktober' => 10,
+        'November' => 11,
+        'Desember' => 12,
+    ];
+
+    $bulanAngka = $bulanMap[$bulan] ?? null;
+
+    if (!$bulanAngka) {
+        abort(400, 'Nama bulan tidak valid.');
+    }
+
+    $pegawaiList = \App\Models\Pegawai::whereYear('kgb_selanjutnya', $tahun)
+    ->whereMonth('kgb_selanjutnya', $bulanAngka)
+    ->get();
+
+    return view('dashboard.detail', compact('bulan', 'tahun', 'pegawaiList'));
+}
+
+
 }

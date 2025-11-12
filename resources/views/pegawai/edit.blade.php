@@ -37,7 +37,7 @@
 </div>
 <div class="col-md-6 mb-3">
                 <label>TMT Pangkat</label>
-                <input type="date" name="tmt_pangkat" class="form-control" value="{{ old('tmt_pangkat', $pegawai->tmt_pangkat) }}" required>
+                <input type="date" name="tmt_pangkat" class="form-control" value="{{ old('tmt_pangkat', $pegawai->tmt_pangkat) }}">
             </div>
         </div>
 
