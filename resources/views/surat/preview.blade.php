@@ -37,19 +37,32 @@
     <hr style="border: 1px solid #000; margin-top: 8px; margin-bottom: 10px;">
 </div>
 
-  {{-- HEADER SURAT --}}
-  <table style="width: 100%; font-size: 12px; margin-bottom: 15px;">
-    <tr>
-      <td style="width: 60%;">Nomor: <span id="nomor_surat">{{ $surat->nomor_surat ?? '..................' }}</span></td>
-      <td style="text-align: right;">{{ \Carbon\Carbon::parse($surat->tanggal_surat ?? now())->translatedFormat('d F Y') }}</td>
-    </tr>
-    <tr>
-      <td>Lampiran: -</td>
-    </tr>
-    <tr>
-      <td>Hal: <strong>Kenaikan Gaji Berkala a.n. {{ $pegawai->nama_pegawai }}</strong></td>
-    </tr>
-  </table>
+{{-- HEADER SURAT --}}
+<table style="width: 100%; font-size: 12px; margin-bottom: 15px; border-collapse: collapse;">
+  <tr>
+    <td style="width: 12%; vertical-align: top;">Nomor</td>
+    <td style="width: 1%; vertical-align: top;">:</td>
+    <td style="width: 47%; vertical-align: top;">
+      <span id="nomor_surat">{{ $surat->nomor_surat ?? '..................' }}</span>
+    </td>
+    <td style="text-align: right; vertical-align: top;">
+      {{ \Carbon\Carbon::parse($surat->tanggal_surat ?? now())->translatedFormat('d F Y') }}
+    </td>
+  </tr>
+  <tr>
+    <td>Lampiran</td>
+    <td>:</td>
+    <td>-</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Hal</td>
+    <td>:</td>
+    <td><strong>Kenaikan Gaji Berkala a.n. {{ $pegawai->nama_pegawai }}</strong></td>
+    <td></td>
+  </tr>
+</table>
+
 
   <p style="font-size: 12px;">Yth. Kepala Kantor Pelayanan Perbendaharaan Negara<br>di <strong>Banjarmasin</strong></p>
 
@@ -105,7 +118,6 @@
     <p style="margin: 2px 0 8px 0;">
       {{ $pegawai->jabatan_pejabat_penetap ?? 'Kepala Kantor Wilayah,' }}
     </p>
-
     @php
     $tandatangan = null;
 
@@ -119,8 +131,6 @@
         }
     }
 @endphp
-
-
     @if(!empty($tandatangan))
       <div style="margin: 0 auto 2px auto; text-align: center;">
         <img src="{{ $tandatangan }}" 
@@ -128,8 +138,8 @@
              style="width: 85px; height: auto;">
       </div>
     @endif
-
-    <p style="font-weight: bold; text-decoration: underline; margin: 0;">
+      <br><br><br>
+    <p style="font-weight: bold; text-decoration: margin: 0;">
       {{ $pegawai->pejabat_penetap }}
     </p>
   </div>

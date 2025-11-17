@@ -8,7 +8,7 @@
   <!-- AdminLTE CSS -->
   <link rel="stylesheet" href="{{ asset('adminlte/dist/css/adminlte.min.css') }}">
   <link rel="stylesheet" href="{{ asset('adminlte/plugins/fontawesome-free/css/all.min.css') }}">
-  <link rel="stylesheey" href=""
+  <link rel="stylesheet" href="">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">

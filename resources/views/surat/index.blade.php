@@ -34,13 +34,10 @@
 
                     {{-- Tombol Edit Surat --}}
                     <a href="{{ route('surat.edit', $p->id_pegawai) }}" class="btn btn-sm btn-warning text-white">
-                      <i class="fas fa-edit me-1"></i> Edit
+                      <i class="fas fa-edit me-1"></i> <strong>Edit & preview</strong>
                     </a>
 
                     {{-- Tombol Cetak PDF --}}
-                    <a href="{{ route('surat.cetak', $p->id_pegawai) }}" class="btn btn-sm btn-success">
-                      <i class="fas fa-print me-1"></i> Cetak
-                    </a>
                   </div>
                 </td>
               </tr>

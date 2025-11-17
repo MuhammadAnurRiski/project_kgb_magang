@@ -4,11 +4,9 @@
 
 @section('content')
 <div class="container-fluid py-4">
-
  <div class="card shadow p-4">
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h4 class="fw-bold text-primary mb-0">Data KGB Berdasarkan Tahun</h4>
-
     <form method="GET" action="{{ route('dashboard') }}" class="d-flex align-items-center">
       <label for="year" class="me-2 fw-semibold">Tahun:</label>
       <select name="year" id="year" class="form-select shadow-sm border-primary" style="width: 120px;" onchange="this.form.submit()">

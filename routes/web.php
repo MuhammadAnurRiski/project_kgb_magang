@@ -51,6 +51,9 @@ Route::middleware(['admin.auth'])->group(function () {
     Route::post('/upload', [DokumenController::class, 'uploadFile'])->name('uploadFile');
     Route::get('/file/{id}', [DokumenController::class, 'viewFile'])->name('viewFile');
     Route::delete('/file/{id}', [DokumenController::class, 'deleteFile'])->name('deleteFile');
+    Route::delete('/folder/{id}', [DokumenController::class, 'deleteFolder'])->name('deleteFolder');
+    Route::delete('/delete-multiple', [DokumenController::class, 'deleteMultiple'])->name('deleteMultiple');
+
 });
 
     //pengaturan

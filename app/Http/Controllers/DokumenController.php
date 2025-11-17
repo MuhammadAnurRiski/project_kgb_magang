@@ -130,4 +130,38 @@ class DokumenController extends Controller
 
         return back()->with('success', 'Data berhasil dihapus.');
     }
+
+    public function deleteFolder($id)
+{
+    $folder = Dokuman::find($id);
+
+    if (!$folder || !$folder->is_folders) {
+        return back()->with('error', 'Folder tidak ditemukan.');
+    }
+
+    // Hapus semua file di dalam folder
+    Dokuman::where('folder_name', $folder->folder_name)
+        ->where('is_folders', false)
+        ->delete();
+
+    // Hapus folder itu sendiri
+    $folder->delete();
+
+    return back()->with('success', 'Folder dan semua isinya berhasil dihapus.');
+}
+
+public function deleteMultiple(Request $request)
+{
+    $ids = $request->input('selected_folders');
+
+    if (!$ids || count($ids) === 0) {
+        return redirect()->route('dokumen.index')->with('error', 'Tidak ada folder yang dipilih.');
+    }
+
+    // Hapus semua folder berdasarkan ID
+    $deleted = Dokuman::whereIn('id', $ids)->delete();
+
+    return redirect()->route('dokumen.index')->with('success', "$deleted folder berhasil dihapus.");
+}
+
 }
