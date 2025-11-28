@@ -6,16 +6,19 @@
 <div class="container-fluid py-4">
   <div class="card shadow p-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
-      <h4 class="fw-bold text-primary mb-0">
+      <h4 class="mb-2" style="font-weight: normal;">
         Daftar Pegawai KGB Bulan {{ $bulan }} {{ $tahun }}
       </h4>
-      <a href="{{ route('dashboard', ['year' => $tahun]) }}" class="btn btn-secondary btn-sm">
-        ← Kembali
+      <div class="text-center">
+      <a href="{{ route('dashboard', ['year' => $tahun]) }}" class="btn btn-info mr-3">
+      <i class="fas fa-chevron-left"></i> 
       </a>
+      </div>
     </div>
 
-    <table class="table table-bordered table-striped">
-      <thead class="table-primary">
+    <div class="card-body">
+                    <table id="kgbTable" class="table table-bordered table-hover">
+                        <thead class="text-center">
         <tr>
           <th>No</th>
           <th>Nama Pegawai</th>
@@ -26,7 +29,7 @@
       <tbody>
         @forelse ($pegawaiList as $index => $item)
           <tr>
-            <td>{{ $index + 1 }}</td>
+            <td style="text-align: center;">{{ $index + 1 }}</td>
             <td>{{ $item->nama_pegawai }}</td>
             <td>{{ $item->nip }}</td>
             <td>{{ $item->jabatan }}</td>

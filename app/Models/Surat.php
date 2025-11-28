@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Carbon|null $tanggal_surat
  * @property string|null $Oleh
  * @property string|null $nama_golongan
+ * @property Carbon|null $mulai_tanggal
  * 
  * @property Pegawai $pegawai
  *
@@ -31,7 +32,8 @@ class Surat extends Model
 
 	protected $casts = [
 		'id_pegawai' => 'int',
-		'tanggal_surat' => 'datetime'
+		'tanggal_surat' => 'datetime',
+		'mulai_tanggal' => 'datetime'
 	];
 
 	protected $fillable = [
@@ -40,7 +42,8 @@ class Surat extends Model
 		'unit_kerja',
 		'tanggal_surat',
 		'Oleh',
-		'nama_golongan'
+		'nama_golongan',
+		'mulai_tanggal'
 	];
 
 	public function pegawai()

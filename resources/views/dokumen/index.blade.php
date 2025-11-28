@@ -3,119 +3,123 @@
 @section('title', 'Manajemen Dokumen')
 
 @section('content')
-<div class="container">
-    <form action="{{ route('dokumen.deleteMultiple') }}" method="POST" id="deleteSelectedForm">
-        @csrf
-        @method('DELETE')
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="text-primary fw-bold"><i class="fas fa-folder-open"></i> Manajemen Dokumen</h4>
+    </div>
 
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h4 class="fw-bold mb-0">📁 Manajemen Dokumen</h4>
-            <button type="submit" class="btn btn-danger btn-sm"
-                    onclick="return confirm('Yakin ingin menghapus folder yang dipilih?')">
-                <i class="bi bi-trash"></i> Hapus Terpilih
-            </button>
+    {{-- Card Buat Folder Baru --}}
+    <div class="card card-primary card-outline shadow-sm mb-4">
+        <div class="card-header">
+            <h5 class="card-title mb-0"><i class="fas fa-plus-circle"></i> Buat Folder Baru</h5>
         </div>
 
-        {{-- Notifikasi --}}
-        @if(session('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        @endif
-
-        @if(session('error'))
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                {{ session('error') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        @endif
-
-        {{-- Grid Folder --}}
-        <div class="explorer-grid">
-            @forelse($folders as $folder)
-                <div class="explorer-item position-relative">
-                    {{-- Checkbox --}}
-                    <input type="checkbox" name="selected_folders[]" value="{{ $folder->id }}" 
-                           class="form-check-input position-absolute top-0 start-0 m-2">
-
-                    {{-- Folder --}}
-                    <a href="{{ route('dokumen.showFolder', $folder->folder_name) }}" 
-                       class="explorer-link text-decoration-none text-dark">
-                        <i class="bi bi-folder-fill explorer-icon"></i>
-                        <span class="explorer-name text-truncate">{{ $folder->folder_name }}</span>
-                    </a>
+        <div class="card-body">
+            <form action="{{ route('dokumen.createFolder') }}" method="POST" class="row g-3">
+                @csrf
+                <div class="col-md-6">
+                    <input type="text" name="folder_name" class="form-control form-control-sm"
+                           placeholder="Masukkan nama folder..." required>
                 </div>
-            @empty
-                <div class="text-center text-muted mt-4">
-                    <i class="bi bi-inbox fs-1 d-block mb-2"></i>
-                    <p>Belum ada folder yang dibuat.</p>
+                <div class="col-md-3">
+                    <button class="btn btn-primary btn-sm w-100">
+                        <i class="fas fa-folder-plus"></i> Buat Folder
+                    </button>
                 </div>
-            @endforelse
+            </form>
         </div>
-    </form>
+    </div>
+
+    {{-- Grid Folder --}}
+    <div class="card card-default shadow-sm">
+        <div class="card-header">
+            <h5 class="card-title mb-0"><i class="fas fa-folder"></i> Daftar Folder</h5>
+        </div>
+
+        <div class="card-body">
+            <div class="explorer-grid">
+                @forelse($folders as $folder)
+                    <div class="explorer-item">
+                        {{-- Checkbox --}}
+                        <div class="folder-checkbox">
+                            <input type="checkbox"
+                                   name="selected_folders[]"
+                                   value="{{ $folder->id }}"
+                                   class="form-check-input">
+                        </div>
+
+                        {{-- Isi Folder --}}
+                        <a href="{{ route('dokumen.showFolder', $folder->folder_name) }}"
+                           class="explorer-link">
+                            <i class="fas fa-folder folder-icon"></i>
+                            <span class="explorer-name">{{ $folder->folder_name }}</span>
+                        </a>
+                    </div>
+                @empty
+                    <div class="text-center text-muted py-4">
+                        <i class="fas fa-folder-open fa-2x mb-2"></i>
+                        <p>Tidak ada folder.</p>
+                    </div>
+                @endforelse
+            </div>
+        </div>
+    </div>
+
 </div>
 
-{{-- CSS: Tampilan seperti Windows Explorer --}}
+{{-- Custom CSS Explorer --}}
 <style>
     .explorer-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
         gap: 1rem;
-        padding: 10px;
-        background-color: #f8f9fa;
-        border-radius: 10px;
     }
 
     .explorer-item {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        padding: 12px;
+        background: #ffffff;
+        padding: 15px;
         border-radius: 8px;
-        transition: all 0.2s ease;
-        background-color: #ffffff;
-        border: 1px solid transparent;
+        text-align: center;
+        border: 1px solid #e2e5ea;
         position: relative;
+        transition: 0.15s ease-in-out;
+        cursor: pointer;
     }
 
     .explorer-item:hover {
-        background-color: #e7f1ff;
-        border: 1px solid #c2dbff;
-        box-shadow: 0 0 6px rgba(0, 0, 0, 0.08);
-        transform: scale(1.02);
+        background: #f6f9ff;
+        border-color: #c7d9ff;
+        transform: translateY(-3px);
+        box-shadow: 0px 3px 6px rgba(0,0,0,0.08);
     }
 
-    .explorer-icon {
-        font-size: 64px;
-        color: #f4b400;
+    .folder-icon {
+        font-size: 52px;
+        color: #f4c542;
         margin-bottom: 8px;
     }
 
+    .folder-checkbox {
+        position: absolute;
+        top: 6px;
+        left: 6px;
+    }
+
     .explorer-name {
-        font-weight: 500;
+        display: block;
         font-size: 14px;
-        max-width: 120px;
+        font-weight: 600;
+        margin-top: 6px;
         white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
     }
 
-    /* Checkbox agar rapi dan tidak mengganggu klik */
-    .form-check-input {
-        z-index: 10;
-        transform: scale(1.2);
-    }
-
-    /* Saat folder dipilih */
-    .form-check-input:checked ~ .explorer-link {
-        background-color: #dbeafe;
-        border-radius: 6px;
-    }
-
-    @media (max-width: 576px) {
-        .explorer-icon {
-            font-size: 48px;
-        }
+    .explorer-link {
+        text-decoration: none;
+        color: #333;
+        display: block;
     }
 </style>
+
 @endsection

@@ -8,8 +8,24 @@
     <div class="card-header bg-primary text-white">
       <h5 class="mb-0"><i class="fas fa-envelope-open-text me-2"></i>Daftar Pegawai - Cetak Surat</h5>
     </div>
-
     <div class="card-body">
+      <form action="{{ route('surat.index') }}" method="GET" class="mb-3">
+  <div class="input-group">
+      <input type="text" name="search" value="{{ $search ?? '' }}" 
+             class="form-control" placeholder="Cari nama, NIP atau jabatan...">
+
+      <button class="btn btn-primary">
+          <i class="fas fa-search"></i> Cari
+      </button>
+
+      @if(!empty($search))
+      <a href="{{ route('surat.index') }}" class="btn btn-secondary">
+          Reset
+      </a>
+      @endif
+  </div>
+</form>
+
       <div class="table-responsive">
         <table class="table table-striped table-hover align-middle">
           <thead class="table-primary text-center">

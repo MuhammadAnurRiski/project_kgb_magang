@@ -39,6 +39,9 @@ Route::middleware(['admin.auth'])->group(function () {
     Route::put('/surat/{id}', [SuratController::class, 'update'])->name('surat.update');
     Route::get('/surat/{id}/cetak', [SuratController::class, 'cetak'])->name('surat.cetak');
     Route::get('/surat/{id}/preview', [SuratController::class, 'preview'])->name('surat.preview');
+    Route::get('/surat/{id}/docx', [SuratController::class, 'downloadDocx']);
+
+
 
     
 

@@ -86,12 +86,12 @@
             <h5 class="section-title text-success">Data KGB</h5>
             <div class="row g-3">
                 <div class="col-md-6">
-                    <label class="fw-semibold text-secondary">Tanggal KGB Sebelumnya</label>
+                    <label class="fw-semibold text-secondary">Mulai Tanggal</label>
                     <input type="text" class="form-control" value="{{ $pegawai->tmt_pangkat_01 }}" readonly>
                 </div>
 
                 <div class="col-md-6">
-                    <label class="fw-semibold text-secondary">Tanggal KGB Sekarang</label>
+                    <label class="fw-semibold text-secondary">Tanggal Mulai Berlaku Gaji</label>
                     <input type="text" class="form-control" value="{{ $pegawai->tmt_kgb }}" readonly>
                 </div>
 
@@ -111,7 +111,7 @@
                 </div>
 
                 <div class="col-md-6">
-                    <label class="fw-semibold text-secondary">Tanggal Surat</label>
+                    <label class="fw-semibold text-secondary">Tanggal</label>
                     <input type="text" class="form-control" value="{{ $pegawai->tanggal }}" readonly>
                 </div>
 

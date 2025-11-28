@@ -55,7 +55,6 @@
           <input type="date" name="tanggal_surat" class="form-control"
                  value="{{ $surat->tanggal_surat }}" oninput="syncDate(this)">
         </div>
-
         <div class="mb-3">
           <label>Unit Kerja</label>
           <input type="text" name="unit_kerja" class="form-control"

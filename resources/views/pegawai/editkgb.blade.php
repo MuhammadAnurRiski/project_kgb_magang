@@ -17,7 +17,7 @@
                 <div class="row g-3">
                     <!-- Tanggal KGB Sekarang -->
                     <div class="col-md-6 mb-3">
-                        <label class="fw-semibold text-secondary">Tanggal Kgb Sekarang</label>
+                        <label class="fw-semibold text-secondary">Tanggal Mulai Berlaku Gaji</label>
                         <input type="date" name="tmt_kgb" class="form-control" 
                             value="{{ old('tmt_kgb', $pegawai->tmt_kgb) }}" required>
                     </div>
@@ -64,7 +64,7 @@
 
                     <!-- Tanggal KGB Sebelumnya (TMT Pangkat) -->
                     <div class="col-md-6 mb-3">
-                        <label class="fw-semibold text-secondary">Tanggal KGB Sebelumnya</label>
+                        <label class="fw-semibold text-secondary">Mulai Tanggal</label>
                         <input type="date" name="tmt_pangkat_01" class="form-control" 
                             value="{{ old('tmt_pangkat_01', $pegawai->tmt_pangkat_01) }}">
                     </div>

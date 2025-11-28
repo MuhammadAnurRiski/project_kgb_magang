@@ -70,6 +70,13 @@ class PegawaiController extends Controller
 
     public function store(Request $request)
     {
+    $request->validate([
+        'nama_pegawai' => 'required|string|max:255',
+        'nip' => 'required|string|max:18',
+        'jabatan' => 'required|string|max:255',
+        'pangkat_golongan' => 'required|string|max:255',
+        'tmt_pangkat' => 'nullable|date',
+    ]);
     Pegawai::create([
         'nama_pegawai' => $request->input('nama_pegawai'),
         'nip' => $request->input('nip'),
