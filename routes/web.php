@@ -60,7 +60,6 @@ Route::middleware(['admin.auth'])->group(function () {
 });
 
     //pengaturan
-    Route::resource('pengaturan', PengaturanController::class,);
     Route::get('/pengaturan', [PengaturanController::class, 'index'])->name('pengaturan.index');
     Route::post('/pengaturan', [PengaturanController::class, 'update'])->name('pengaturan.update');
 
