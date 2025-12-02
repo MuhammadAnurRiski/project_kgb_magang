@@ -4,11 +4,35 @@
 
 @section('content')
 <div class="container-fluid">
+
+    {{-- ========================= --}}
+    {{--   HEADER & NOTIFIKASI     --}}
+    {{-- ========================= --}}
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h4 class="text-primary fw-bold"><i class="fas fa-folder-open"></i> Manajemen Dokumen</h4>
+        <h4 class="fw-bold">
+            <i class="fas fa-folder-open"></i> Manajemen Dokumen
+        </h4>
     </div>
 
-    {{-- Card Buat Folder Baru --}}
+    {{-- Notifikasi --}}
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    @endif
+
+    @if(session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    @endif
+
+
+    {{-- ========================= --}}
+    {{--     FORM BUAT FOLDER      --}}
+    {{-- ========================= --}}
     <div class="card card-primary card-outline shadow-sm mb-4">
         <div class="card-header">
             <h5 class="card-title mb-0"><i class="fas fa-plus-circle"></i> Buat Folder Baru</h5>
@@ -22,7 +46,7 @@
                            placeholder="Masukkan nama folder..." required>
                 </div>
                 <div class="col-md-3">
-                    <button class="btn btn-primary btn-sm w-100">
+                    <button class="btn btn-secondary btn-sm">
                         <i class="fas fa-folder-plus"></i> Buat Folder
                     </button>
                 </div>
@@ -30,44 +54,66 @@
         </div>
     </div>
 
-    {{-- Grid Folder --}}
-    <div class="card card-default shadow-sm">
-        <div class="card-header">
-            <h5 class="card-title mb-0"><i class="fas fa-folder"></i> Daftar Folder</h5>
-        </div>
 
-        <div class="card-body">
-            <div class="explorer-grid">
-                @forelse($folders as $folder)
-                    <div class="explorer-item">
-                        {{-- Checkbox --}}
-                        <div class="folder-checkbox">
-                            <input type="checkbox"
-                                   name="selected_folders[]"
-                                   value="{{ $folder->id }}"
-                                   class="form-check-input">
+    {{-- ========================= --}}
+    {{--  DAFTAR FOLDER + DELETE   --}}
+    {{-- ========================= --}}
+    <form action="{{ route('dokumen.deleteMultiple') }}" method="POST" id="deleteSelectedForm">
+        @csrf
+        @method('DELETE')
+
+        <div class="card card-default shadow-sm mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-folder"></i> Daftar Folder
+                </h5>
+
+                <button type="submit" class="btn btn-danger btn-sm"
+                        onclick="return confirm('Yakin ingin menghapus folder yang dipilih?')">
+                    <i class="bi bi-trash"></i> Hapus Terpilih
+                </button>
+            </div>
+
+            <div class="card-body">
+                <div class="explorer-grid">
+                    @forelse($folders as $folder)
+                        <div class="explorer-item">
+
+                            {{-- Checkbox --}}
+                            <div class="folder-checkbox">
+                                <input type="checkbox"
+                                       name="selected_folders[]"
+                                       value="{{ $folder->id }}"
+                                       class="form-check-input">
+                            </div>
+
+                            {{-- Folder Preview --}}
+                            <a href="{{ route('dokumen.showFolder', $folder->folder_name) }}"
+                               class="explorer-link">
+                                <i class="fas fa-folder folder-icon"></i>
+                                <span class="explorer-name">{{ $folder->folder_name }}</span>
+                            </a>
+
                         </div>
-
-                        {{-- Isi Folder --}}
-                        <a href="{{ route('dokumen.showFolder', $folder->folder_name) }}"
-                           class="explorer-link">
-                            <i class="fas fa-folder folder-icon"></i>
-                            <span class="explorer-name">{{ $folder->folder_name }}</span>
-                        </a>
-                    </div>
-                @empty
-                    <div class="text-center text-muted py-4">
-                        <i class="fas fa-folder-open fa-2x mb-2"></i>
-                        <p>Tidak ada folder.</p>
-                    </div>
-                @endforelse
+                    @empty
+                        <div class="text-center text-muted py-4">
+                            <i class="fas fa-folder-open fa-2x mb-2"></i>
+                            <p>Tidak ada folder.</p>
+                        </div>
+                    @endforelse
+                </div>
             </div>
         </div>
-    </div>
+
+    </form>
 
 </div>
 
-{{-- Custom CSS Explorer --}}
+
+
+{{-- ========================= --}}
+{{--           CSS            --}}
+{{-- ========================= --}}
 <style>
     .explorer-grid {
         display: grid;

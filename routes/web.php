@@ -39,7 +39,7 @@ Route::middleware(['admin.auth'])->group(function () {
     Route::put('/surat/{id}', [SuratController::class, 'update'])->name('surat.update');
     Route::get('/surat/{id}/cetak', [SuratController::class, 'cetak'])->name('surat.cetak');
     Route::get('/surat/{id}/preview', [SuratController::class, 'preview'])->name('surat.preview');
-    Route::get('/surat/{id}/docx', [SuratController::class, 'downloadDocx']);
+    Route::get('/surat/{id}/docx', [SuratController::class, 'exportDocx'])->name('surat.docx');
 
 
 
@@ -47,22 +47,19 @@ Route::middleware(['admin.auth'])->group(function () {
 
 
     //dokumen
- Route::prefix('dokumen')->name('dokumen.')->group(function () {
-    Route::get('/', [DokumenController::class, 'index'])->name('index');
-    Route::post('/create-folder', [DokumenController::class, 'createFolder'])->name('createFolder');
-    Route::get('/{folderName}', [DokumenController::class, 'showFolder'])->name('showFolder');
-    Route::post('/upload', [DokumenController::class, 'uploadFile'])->name('uploadFile');
-    Route::get('/file/{id}', [DokumenController::class, 'viewFile'])->name('viewFile');
-    Route::delete('/file/{id}', [DokumenController::class, 'deleteFile'])->name('deleteFile');
-    Route::delete('/folder/{id}', [DokumenController::class, 'deleteFolder'])->name('deleteFolder');
-    Route::delete('/delete-multiple', [DokumenController::class, 'deleteMultiple'])->name('deleteMultiple');
+ Route::prefix('dokumen')->group(function () {
 
+    Route::get('/', [DokumenController::class, 'index'])->name('dokumen.index');
+    Route::post('/create-folder', [DokumenController::class, 'createFolder'])->name('dokumen.createFolder');
+    Route::post('/upload', [DokumenController::class, 'uploadFile'])->name('dokumen.uploadFile');
+    Route::get('/file/{id}', [DokumenController::class, 'viewFile'])->name('dokumen.viewFile');
+    Route::delete('/file/{id}', [DokumenController::class, 'deleteFile'])->name('dokumen.deleteFile');
+    Route::delete('/folder/{id}', [DokumenController::class, 'deleteFolder'])->name('dokumen.deleteFolder');
+    Route::post('/delete-multiple', [DokumenController::class, 'deleteMultiple'])->name('dokumen.deleteMultiple');
+    // ❗ HARUS PALING TERAKHIR
+    Route::get('/{folderName}', [DokumenController::class, 'showFolder'])->name('dokumen.showFolder');
 });
-
     //pengaturan
     Route::get('/pengaturan', [PengaturanController::class, 'index'])->name('pengaturan.index');
     Route::post('/pengaturan', [PengaturanController::class, 'update'])->name('pengaturan.update');
-
 });
-
- 

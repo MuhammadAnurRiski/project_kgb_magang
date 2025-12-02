@@ -78,8 +78,9 @@
         @endforeach
       </select>
     </div>  
-
-        <button type="button" id="saveBtn" class="btn btn-success">Simpan</button>
+    <a href="{{ route('surat.docx', $surat->id) }}" class="btn btn-primary">
+    <i class="bi bi-file-earmark-word"></i> Download Dokumen (.docx)
+</a>
         <a href="{{ route('surat.cetak', $surat->id) }}"class="btn btn-secondary" target="_blank">
            <i class="fas fa-print"></i> Cetak PDF
         </a>

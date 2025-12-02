@@ -11,9 +11,6 @@ use App\Models\Gaji;
 use App\Models\PangkatGolongan;
 
 
-
-
-
 class PegawaiController extends Controller
 {
     //CRUD pegawai
