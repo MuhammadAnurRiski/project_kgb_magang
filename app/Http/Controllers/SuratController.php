@@ -115,11 +115,17 @@ public function exportDocx($id)
     $phpWord->setDefaultFontName('Arial');
     $phpWord->setDefaultFontSize(12);
 
-    $section = $phpWord->addSection([
-        'marginTop'    => 500,
-        'marginBottom' => 500,
-        'marginLeft'   => 700,
-        'marginRight'  => 600,
+    $phpWord->setDefaultParagraphStyle([
+    'spaceBefore' => 0,
+    'spaceAfter'  => 0,
+    'spacing'     => 120, // default Word 240 → lebih rapat
+]);
+
+     $section = $phpWord->addSection([
+        'marginTop'    => 400,
+        'marginBottom' => 400,
+        'marginLeft'   => 900,
+        'marginRight'  => 900,
     ]);
 
     /*
@@ -127,76 +133,83 @@ public function exportDocx($id)
     | KOP SURAT
     |--------------------------------------------------------------------------
     */
-
-    $tableStyle = [
-        'cellMarginLeft' => 0,
-        'alignment'      => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER
-    ];
-
-    $table = $section->addTable($tableStyle);
+    $table = $section->addTable(['borderSize' => 0, 'cellMargin' => 0]);
     $table->addRow();
 
-    // Logo kiri
-    $cellLogo = $table->addCell(1200);
-    if ($pengaturan->logo_instansi && file_exists(public_path('storage/'.$pengaturan->logo_instansi))) {
-        $cellLogo->addImage(
-            public_path('storage/'.$pengaturan->logo_instansi),
-            ['width' => 70]
-        );
+    $cell1 = $table->addCell(1500);
+    if ($pengaturan->logo_instansi && file_exists(public_path("storage/".$pengaturan->logo_instansi))) {
+        $cell1->addImage(public_path("storage/".$pengaturan->logo_instansi), [
+            'width' => 70,
+            'align' => 'center'
+        ]);
     }
 
-    // Kop tengah
-    $cellText = $table->addCell(8000);
-    $cellText->addText(strtoupper($pengaturan->nama_instansi), ['bold' => true, 'size' => 14], ['align' => 'center']);
-    $cellText->addText("KANTOR WILAYAH KALIMANTAN SELATAN", ['bold' => true, 'size' => 14], ['align' => 'center']);
-    $cellText->addText($pengaturan->alamat_instansi, ['size' => 12], ['align' => 'center']);
+    $cell2 = $table->addCell(8000);
+    $cell2->addText(
+        strtoupper($pengaturan->nama_instansi),
+        ['bold' => true, 'size' => 14],
+        ['align' => 'center']
+    );
+    $cell2->addText(
+        "KANTOR WILAYAH KALIMANTAN SELATAN",
+        ['bold' => true, 'size' => 14],
+        ['align' => 'center']
+    );
+    $cell2->addText(
+        $pengaturan->alamat_instansi,
+        ['size' => 11],
+        ['align' => 'center']
+    );
 
-    // Garis bawah
-    $section->addLine(['weight' => 1, 'width' => 500, 'color' => '#000']);
+    $section->addText('', [], [
+    'borderBottomSize' => 18,
+    'borderBottomColor' => '000000',
+    'spaceAfter'=>120,
+]);
 
     /*
     |--------------------------------------------------------------------------
     | HEADER SURAT
     |--------------------------------------------------------------------------
     */
-
     $section->addTextBreak(1);
 
-    $header = $section->addTable();
-    $header->addRow();
-    $header->addCell(2000)->addText("Nomor");
-    $header->addCell(200)->addText(":");
-    $header->addCell(4000)->addText($surat->nomor_surat ?? "................");
-    $header->addCell(3000)->addText(
-        \Carbon\Carbon::parse($surat->tanggal_surat ?? now())->translatedFormat("d F Y"),
+    $hTable = $section->addTable(['borderSize' => 0]);
+
+    // Row Nomor
+    $hTable->addRow();
+    $hTable->addCell(1500)->addText("Nomor");
+    $hTable->addCell(200)->addText(":");
+    $hTable->addCell(3500)->addText($surat->nomor_surat);
+    $hTable->addCell(3500)->addText(
+        \Carbon\Carbon::parse($surat->tanggal_surat)->translatedFormat("d F Y"),
         null,
         ['align' => 'right']
     );
 
-    $header->addRow();
-    $header->addCell()->addText("Lampiran");
-    $header->addCell()->addText(":");
-    $header->addCell()->addText("-");
-    $header->addCell()->addText("");
+    // Lampiran
+    $hTable->addRow();
+    $hTable->addCell()->addText("Lampiran");
+    $hTable->addCell()->addText(":");
+    $hTable->addCell()->addText("-");
+    $hTable->addCell()->addText("");
 
-    $header->addRow();
-    $header->addCell()->addText("Hal");
-    $header->addCell()->addText(":");
-    $header->addCell()->addText("Kenaikan Gaji Berkala a.n. ".$pegawai->nama_pegawai);
-    $header->addCell()->addText("");
+    // Hal
+    $hTable->addRow();
+    $hTable->addCell()->addText("Hal");
+    $hTable->addCell()->addText(":");
+    $hTable->addCell()->addText("Kenaikan Gaji Berkala a.n. ".$pegawai->nama_pegawai);
+    $hTable->addCell()->addText("");
 
     /*
     |--------------------------------------------------------------------------
-    | TUJUAN
+    | ALAMAT TUJUAN
     |--------------------------------------------------------------------------
     */
 
     $section->addTextBreak(1);
-    $section->addText(
-        "Yth. Kepala Kantor Pelayanan Perbendaharaan Negara\nDi Banjarmasin",
-        null,
-        ['spacing' => 120]
-    );
+    $section->addText("Yth. Kepala Kantor Pelayanan Perbendaharaan Negara", [], []);
+    $section->addText("di Banjarmasin", [], []);
 
     /*
     |--------------------------------------------------------------------------
@@ -208,7 +221,7 @@ public function exportDocx($id)
 
     $section->addText(
         "     Dengan ini diberitahukan bahwa telah dipenuhinya masa kerja dan syarat-syarat lainnya kepada:",
-        null,
+        [],
         ['align' => 'both']
     );
 
@@ -220,8 +233,8 @@ public function exportDocx($id)
 
     $section->addTextBreak(0.5);
 
-    $bio = $section->addTable();
-    $bio->addRow()->addCell()->addText("1. Nama");
+    $bio = $section->addTable(['borderSize' => 0]);
+    $bio->addRow()->addCell(2500)->addText("1. Nama");
     $bio->addCell()->addText(": ".$pegawai->nama_pegawai);
 
     $bio->addRow()->addCell()->addText("2. NIP");
@@ -234,7 +247,7 @@ public function exportDocx($id)
     $bio->addCell()->addText(": ".$surat->unit_kerja);
 
     $bio->addRow()->addCell()->addText("5. Gaji Pokok Lama");
-    $bio->addCell()->addText(": Rp ".number_format($pegawai->nominal_gaji,0,',','.').",-");
+    $bio->addCell()->addText(": Rp ".number_format($pegawai->nominal_gaji, 0, ',', '.'));
 
     /*
     |--------------------------------------------------------------------------
@@ -243,19 +256,26 @@ public function exportDocx($id)
     */
 
     $section->addTextBreak(1);
-    $section->addText("     Atas dasar surat keputusan terakhir tentang penyesuaian gaji pokok yang ditetapkan:", null, ['align' => 'both']);
-    $section->addTextBreak(0.5);
+    $section->addText(
+        "     Atas dasar surat keputusan terakhir tentang penyesuaian gaji pokok yang ditetapkan:",
+        [],
+        ['align' => 'both']
+    );
 
-    $sk = $section->addTable();
-    $sk->addRow()->addCell()->addText("a. Oleh");
+    $sk = $section->addTable(['borderSize' => 0]);
+    $sk->addRow()->addCell(2500)->addText("a. Oleh");
     $sk->addCell()->addText(": ".$surat->Oleh);
+
     $sk->addRow()->addCell()->addText("b. Nomor");
     $sk->addCell()->addText(": ".$pegawai->no_sk);
+
     $sk->addRow()->addCell()->addText("c. Tanggal");
     $sk->addCell()->addText(": ".\Carbon\Carbon::parse($pegawai->tanggal)->translatedFormat("d F Y"));
-    $sk->addRow()->addCell()->addText("d. TMT");
+
+    $sk->addRow()->addCell()->addText("d. Tanggal mulai");
     $sk->addCell()->addText(": ".\Carbon\Carbon::parse($pegawai->tmt_kgb)->translatedFormat("d F Y"));
-    $sk->addRow()->addCell()->addText("e. Masa Kerja");
+
+    $sk->addRow()->addCell()->addText("e. Masa Kerja Golongan");
     $sk->addCell()->addText(": ".$pegawai->masa_kerja_tahun." Tahun ".$pegawai->masa_kerja_bulan." Bulan");
 
     /*
@@ -266,13 +286,12 @@ public function exportDocx($id)
 
     $section->addTextBreak(1);
     $section->addText("     Diberikan Kenaikan Gaji Berkala, hingga memperoleh:");
-    $section->addTextBreak(0.5);
 
-    $kgb = $section->addTable();
-    $kgb->addRow()->addCell()->addText("6. Gaji Pokok Baru");
-    $kgb->addCell()->addText(": Rp ".number_format($pegawai->nominal_gaji_baru,0,',','.').",-");
+    $kgb = $section->addTable(['borderSize' => 0]);
+    $kgb->addRow()->addCell(2500)->addText("6. Gaji Pokok Baru");
+    $kgb->addCell()->addText(": Rp ".number_format($pegawai->nominal_gaji_baru, 0, ',', '.'));
 
-    $kgb->addRow()->addCell()->addText("7. Masa Kerja");
+    $kgb->addRow()->addCell()->addText("7. Berdasarkan Masa Kerja");
     $kgb->addCell()->addText(": ".$pegawai->mkg_tahun_selanjutnya." Tahun ".$pegawai->mkg_bulan_selanjutnya." Bulan");
 
     $kgb->addRow()->addCell()->addText("8. Dalam Golongan");
@@ -281,25 +300,25 @@ public function exportDocx($id)
     $kgb->addRow()->addCell()->addText("9. Mulai Tanggal");
     $kgb->addCell()->addText(": ".\Carbon\Carbon::parse($pegawai->tmt_pangkat_01)->translatedFormat("d F Y"));
 
-    $kgb->addRow()->addCell()->addText("10. KGB Selanjutnya");
+    $kgb->addRow()->addCell()->addText("10. Kenaikan gaji berkala");
     $kgb->addCell()->addText(": ".\Carbon\Carbon::parse($pegawai->kgb_selanjutnya)->translatedFormat("d F Y"));
 
     /*
     |--------------------------------------------------------------------------
-    | PENUTUP + TANDA TANGAN
+    | PENUTUP
     |--------------------------------------------------------------------------
     */
 
     $section->addTextBreak(1);
     $section->addText(
-        "     Diharap agar sesuai dengan Peraturan Pemerintah Nomor 5 Tahun 2024 ...",
-        null,
+        "     Diharap agar sesuai dengan Peraturan Pemerintah Nomor 5 Tahun 2024 kepada Pegawai tersebut dapat dibayarkan penghasilannya berdasarkan gaji pokok tersebut.",
+        [],
         ['align' => 'both']
     );
 
-    // Tanda tangan kanan
+    // Tanda tangan
     $section->addTextBreak(2);
-    $section->addText($pegawai->jabatan_pejabat_penetap, null, ['align' => 'right']);
+    $section->addText($pegawai->jabatan_pejabat_penetap, [], ['align' => 'right']);
 
     if ($pengaturan->tanda_tangan && file_exists(public_path("storage/".$pengaturan->tanda_tangan))) {
         $section->addImage(public_path("storage/".$pengaturan->tanda_tangan), [
@@ -317,9 +336,9 @@ public function exportDocx($id)
     */
 
     $section->addTextBreak(2);
-    $section->addText("Tembusan:", ['bold' => true]);
-    $section->addText("1. Pembuat Daftar Gaji");
-    $section->addText("2. Pegawai yang bersangkutan");
+    $section->addText("Tembusan:");
+    $section->addText("1. Pembuat Daftar Gaji yang bersangkutan");
+    $section->addText("2. Pegawai Negeri Sipil yang bersangkutan");
 
     /*
     |--------------------------------------------------------------------------

@@ -11,27 +11,39 @@ class DokumenController extends Controller
     /**
      * Tampilkan daftar folder utama.
      */
-    public function index()
-    {
-        $folders = Dokuman::where('is_folders', true)
-            ->orderBy('folder_name')
-            ->get();
+  public function index(Request $request)
+{
+    $search = $request->query('search');
 
-        return view('dokumen.index', compact('folders'));
-    }
+    $folders = Dokuman::where('is_folders', true)
+        ->when($search, function ($query, $search) {
+            $query->where('folder_name', 'like', "%{$search}%");
+        })
+        ->orderBy('folder_name')
+        ->get();
+
+    return view('dokumen.index', compact('folders', 'search'));
+}
+
 
     /**
      * Tampilkan isi folder.
      */
-    public function showFolder($folderName)
-    {
-        $files = Dokuman::where('folder_name', $folderName)
-            ->where('is_folders', false)
-            ->orderBy('created_at', 'desc')
-            ->get();
+   public function showFolder(Request $request, $folderName)
+{
+    $search = $request->query('search');
 
-        return view('dokumen.folder', compact('folderName', 'files'));
-    }
+    $files = Dokuman::where('folder_name', $folderName)
+        ->where('is_folders', false)
+        ->when($search, function ($query, $search) {
+            $query->where('file_name', 'like', "%{$search}%");
+        })
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+    return view('dokumen.folder', compact('folderName', 'files', 'search'));
+}
+
 
     /**
      * Buat folder baru.

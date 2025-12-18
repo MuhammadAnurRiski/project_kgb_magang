@@ -55,7 +55,7 @@ Route::middleware(['admin.auth'])->group(function () {
     Route::get('/file/{id}', [DokumenController::class, 'viewFile'])->name('dokumen.viewFile');
     Route::delete('/file/{id}', [DokumenController::class, 'deleteFile'])->name('dokumen.deleteFile');
     Route::delete('/folder/{id}', [DokumenController::class, 'deleteFolder'])->name('dokumen.deleteFolder');
-    Route::post('/delete-multiple', [DokumenController::class, 'deleteMultiple'])->name('dokumen.deleteMultiple');
+    Route::delete('/delete-multiple', [DokumenController::class, 'deleteMultiple'])->name('dokumen.deleteMultiple');
     // ❗ HARUS PALING TERAKHIR
     Route::get('/{folderName}', [DokumenController::class, 'showFolder'])->name('dokumen.showFolder');
 });

@@ -74,30 +74,38 @@ class PegawaiController extends Controller
         'pangkat_golongan' => 'required|string|max:255',
         'tmt_pangkat' => 'nullable|date',
     ]);
+    $toNull = function($val) {
+    return $val === "" ? null : $val;
+};
+
+$cleanNumber = function($val) {
+    return $val ? preg_replace('/[^0-9]/', '', $val) : null;
+};
+
     Pegawai::create([
-        'nama_pegawai' => $request->input('nama_pegawai'),
-        'nip' => $request->input('nip'),
-        'jabatan' => $request->input('jabatan'),
-        'pangkat_golongan' => $request->input('pangkat_golongan'),
-        'tmt_pangkat' => $request->input('tmt_pangkat'),
-        'tmt_pangkat_01' => $request->input('tmt_pangkat_01'),
-        'tmt_kgb' => $request->input('tmt_kgb'),
+    'nama_pegawai' => $request->nama_pegawai,
+    'nip' => $request->nip,
+    'jabatan' => $request->jabatan,
+    'pangkat_golongan' => $request->pangkat_golongan,
+    'tmt_pangkat' => $toNull($request->tmt_pangkat),
+    'tmt_pangkat_01' => $toNull($request->tmt_pangkat_01),
+    'tmt_kgb' => $toNull($request->tmt_kgb),
 
-        'masa_kerja_tahun' => $request->input('masa_kerja_tahun'),
-        'masa_kerja_bulan' => $request->input('masa_kerja_bulan'),
+    'masa_kerja_tahun' => $toNull($request->masa_kerja_tahun),
+    'masa_kerja_bulan' => $toNull($request->masa_kerja_bulan),
 
-        // 🔽 perbaikan: simpan hanya angka, hilangkan "Rp" dan titik
-        'nominal_gaji' => preg_replace('/[^0-9]/', '', $request->input('nominal_gaji')),
-        'nominal_gaji_baru' => preg_replace('/[^0-9]/', '', $request->input('nominal_gaji_baru')),
+    'nominal_gaji' => $cleanNumber($request->nominal_gaji),
+    'nominal_gaji_baru' => $cleanNumber($request->nominal_gaji_baru),
 
-        'no_sk' => $request->input('no_sk'),
-        'pejabat_penetap' => $request->input('pejabat_penetap'),
-        'jabatan_pejabat_penetap' => $request->input('jabatan_pejabat_penetap'),
-        'kgb_selanjutnya' => $request->input('kgb_selanjutnya'),
-        'tanggal' => $request->input('tanggal'),
-        'mkg_tahun_selanjutnya' => $request->input('mkg_tahun_selanjutnya'),
-        'mkg_bulan_selanjutnya' => $request->input('mkg_bulan_selanjutnya'),
-    ]);
+    'no_sk' => $toNull($request->no_sk),
+    'pejabat_penetap' => $toNull($request->pejabat_penetap),
+    'jabatan_pejabat_penetap' => $toNull($request->jabatan_pejabat_penetap),
+    'kgb_selanjutnya' => $toNull($request->kgb_selanjutnya),
+    'tanggal' => $toNull($request->tanggal),
+
+    'mkg_tahun_selanjutnya' => $toNull($request->mkg_tahun_selanjutnya),
+    'mkg_bulan_selanjutnya' => $toNull($request->mkg_bulan_selanjutnya),
+]);
 
     return redirect()->route('pegawai.index')->with('success', 'Pegawai created successfully.');
 }

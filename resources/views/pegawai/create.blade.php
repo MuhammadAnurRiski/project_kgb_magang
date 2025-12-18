@@ -26,7 +26,7 @@
         {{-- Jabatan dan Pangkat --}}
         <div class="col-md-6">
           <label class="mb-2 fw-bold">Jabatan</label>
-          <input list="jabatanList" name="jabatan" class="mb-2 form-control" placeholder="Ketik atau pilih jabatan">
+          <input list="jabatanList" name="jabatan" class="mb-2 form-control" placeholder="Ketik atau pilih jabatan" required>
           <datalist id="jabatanList">
             @foreach ($jabatan as $j)
               <option value="{{ $j->nama_jabatan }}">
@@ -44,7 +44,7 @@
         </div>
         <div class="col-md-6">
           <label class="fw-bold">Pangkat / Golongan</label>
-          <input list="pangkatList" name="pangkat_golongan" class="form-control" placeholder="Ketik atau pilih pangkat/golongan">
+          <input list="pangkatList" name="pangkat_golongan" class="form-control" placeholder="Ketik atau pilih pangkat/golongan" required>
           <datalist id="pangkatList">
             @foreach ($pangkat_golongan as $pg)
               <option value="{{ $pg->nama_pangkat_golongan }}">
