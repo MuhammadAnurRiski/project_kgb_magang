@@ -15,37 +15,34 @@
                 @method('PUT')
 
                 <div class="row g-3">
-                    <!-- Tanggal KGB Sekarang -->
-                    <div class="col-md-6 mb-3">
-                        <label class="fw-semibold text-secondary">Tanggal Mulai Berlaku Gaji</label>
-                        <input type="date" name="tmt_kgb" class="form-control" 
-                            value="{{ old('tmt_kgb', $pegawai->tmt_kgb) }}" required>
-                    </div>
-
                     <!-- Gaji Pokok Lama -->
                     <div class="col-md-6 mb-3">
                         <label class="fw-semibold text-secondary">Gaji Pokok Lama</label>
                         <input list="gajiList" name="nominal_gaji" class="form-control" 
-                            value="{{ old('nominal_gaji', $pegawai->nominal_gaji) }}" placeholder="Ketik atau pilih nominal gaji" required>
+                        value="{{ old('nominal_gaji', $pegawai->nominal_gaji) }}" placeholder="Ketik atau pilih nominal gaji" required>
                         <datalist id="gajiList">
                             @foreach ($gajiOptions as $opt)
-                                <option value="Rp {{ number_format($opt, 0, ',', '.') }}"></option>
+                            <option value="Rp {{ number_format($opt, 0, ',', '.') }}"></option>
                             @endforeach
                         </datalist>
                     </div>
-
-                    <!-- Gaji Pokok Baru -->
-                    <div class="col-md-6 mb-3">
-                        <label class="fw-semibold text-secondary">Gaji Pokok Baru</label>
-                        <input list="gajiList" name="nominal_gaji_baru" class="form-control" 
-                            value="{{ old('nominal_gaji_baru', $pegawai->nominal_gaji_baru) }}" placeholder="Ketik atau pilih nominal gaji" required>
-                    </div>
-
                     <!-- Nomor SK -->
                     <div class="col-md-6 mb-3">
                         <label class="fw-semibold text-secondary">Nomor SK</label>
                         <input type="text" name="no_sk" class="form-control" 
                             value="{{ old('no_sk', $pegawai->no_sk) }}" required>
+                    </div>
+                    <!-- Tanggal KGB Sebelumnya (TMT Pangkat) -->
+                    <div class="col-md-6 mb-3">
+                        <label class="fw-semibold text-secondary">Mulai Tanggal</label>
+                        <input type="date" name="tmt_pangkat_01" class="form-control" 
+                            value="{{ old('tmt_pangkat_01', $pegawai->tmt_pangkat_01) }}">
+                    </div>
+                    <!-- Tanggal KGB Sekarang -->
+                    <div class="col-md-6 mb-3">
+                        <label class="fw-semibold text-secondary">Tanggal Mulai Berlaku Gaji</label>
+                        <input type="date" name="tmt_kgb" class="form-control" 
+                            value="{{ old('tmt_kgb', $pegawai->tmt_kgb) }}" required>
                     </div>
 
                     <!-- Masa Kerja Tahun -->
@@ -54,35 +51,30 @@
                         <input type="number" name="masa_kerja_tahun" class="form-control" 
                             value="{{ old('masa_kerja_tahun', $pegawai->masa_kerja_tahun) }}" required>
                     </div>
-
-                    <!-- Masa Kerja Bulan -->
-                    <div class="col-md-6 mb-3">
-                        <label class="fw-semibold text-secondary">Masa Kerja (Bulan)</label>
-                        <input type="number" name="masa_kerja_bulan" class="form-control" 
-                            value="{{ old('masa_kerja_bulan', $pegawai->masa_kerja_bulan) }}" required>
-                    </div>
-
-                    <!-- Tanggal KGB Sebelumnya (TMT Pangkat) -->
-                    <div class="col-md-6 mb-3">
-                        <label class="fw-semibold text-secondary">Mulai Tanggal</label>
-                        <input type="date" name="tmt_pangkat_01" class="form-control" 
-                            value="{{ old('tmt_pangkat_01', $pegawai->tmt_pangkat_01) }}">
-                    </div>
-
-                    <!-- Tanggal -->
-                    <div class="col-md-6 mb-3">
-                        <label class="fw-semibold text-secondary">Tanggal</label>
-                        <input type="date" name="tanggal" class="form-control" 
-                            value="{{ old('tanggal', $pegawai->tanggal) }}" required>
-                    </div>
-
+                    
                     <!-- Masa Kerja Tahun Selanjutnya -->
                     <div class="col-md-6 mb-3">
                         <label class="fw-semibold text-secondary">Masa Kerja (Tahun) Selanjutnya</label>
                         <input type="number" name="mkg_tahun_selanjutnya" class="form-control" 
                             value="{{ old('masa_kerja_tahun', $pegawai->mkg_tahun_selanjutnya) }}" required>
                     </div>
+                    
+                    <!-- Gaji Pokok Baru -->
+                    <div class="col-md-6 mb-3">
+                        <label class="fw-semibold text-secondary">Gaji Pokok Baru</label>
+                        <input list="gajiList" name="nominal_gaji_baru" class="form-control" 
+                        value="{{ old('nominal_gaji_baru', $pegawai->nominal_gaji_baru) }}" placeholder="Ketik atau pilih nominal gaji" required>
+                    </div>
+                </div>
+                <hr class="my-4">
 
+                <div class="row g-3">
+                    <!-- Masa Kerja Bulan -->
+                    <div class="col-md-6 mb-3">
+                        <label class="fw-semibold text-secondary">Masa Kerja (Bulan)</label>
+                        <input type="number" name="masa_kerja_bulan" class="form-control" 
+                            value="{{ old('masa_kerja_bulan', $pegawai->masa_kerja_bulan) }}" required>
+                    </div>
                     <!-- Masa Kerja Bulan Selanjutnya -->
                     <div class="col-md-6 mb-3">
                         <label class="fw-semibold text-secondary">Masa Kerja (Bulan) Selanjutnya</label>
@@ -90,9 +82,23 @@
                             value="{{ old('masa_kerja_bulan', $pegawai->mkg_bulan_selanjutnya) }}" required>
                     </div>
 
+                    <!-- Tanggal -->
+                    <div class="col-md-6 mb-3">
+                        <label class="fw-semibold text-secondary">Tanggal</label>
+                        <input type="date" name="tanggal" class="form-control" 
+                        value="{{ old('tanggal', $pegawai->tanggal) }}" required>
+                    </div>
+                    
+                    <!-- KGB Selanjutnya -->
+                    <div class="col-md-6 mb-3">
+                        <label class="fw-semibold text-secondary">Tanggal KGB Selanjutnya</label>
+                        <input type="date" name="kgb_selanjutnya" class="form-control" 
+                            value="{{ old('kgb_selanjutnya', $pegawai->kgb_selanjutnya) }}" required> 
+                    </div>
+
                     <!-- Pejabat Penetap -->
                     <div class="col-md-6 mb-3">
-                        <label class="fw-semibold text-secondary">Pejabat Penetap</label>
+                        <label class="fw-semibold text-secondary">Nama Pejabat Penetap</label>
                         <input type="text" name="pejabat_penetap" class="form-control" 
                             value="{{ old('pejabat_penetap', $pegawai->pejabat_penetap) }}" required>
                     </div>
@@ -104,12 +110,6 @@
                             value="{{ old('pejabat_penetap', $pegawai->jabatan_pejabat_penetap) }}" required>
                     </div>
 
-                    <!-- KGB Selanjutnya -->
-                    <div class="col-md-6 mb-3">
-                        <label class="fw-semibold text-secondary">Tanggal KGB Selanjutnya</label>
-                        <input type="date" name="kgb_selanjutnya" class="form-control" 
-                            value="{{ old('kgb_selanjutnya', $pegawai->kgb_selanjutnya) }}" required> 
-                    </div>
                 </div>
 
                 <hr class="my-4">

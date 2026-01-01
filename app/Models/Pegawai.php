@@ -47,15 +47,15 @@ class Pegawai extends Model
 
 	protected $casts = [
 		'nip' => 'int',
-		'tmt_pangkat_01' => 'datetime',
-		'tmt_pangkat' => 'datetime',
-		'tmt_kgb' => 'datetime',
+		'tmt_pangkat_01' => 'date',
+		'tmt_pangkat' => 'date',
+		'tmt_kgb' => 'date',
 		'masa_kerja_tahun' => 'int',
 		'masa_kerja_bulan' => 'int',
 		'nominal_gaji' => 'int',
-		'kgb_selanjutnya' => 'datetime',
+		'kgb_selanjutnya' => 'date',
 		'nominal_gaji_baru' => 'int',
-		'tanggal' => 'datetime',
+		'tanggal' => 'date',
 		'mkg_tahun_selanjutnya' => 'int',
 		'mkg_bulan_selanjutnya' => 'int'
 	];

@@ -25,6 +25,31 @@
         </div>
     </section>
 
+    <div class="row mb-4">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <strong>Grafik KGB Tahun {{ $selectedYear ?? 'Semua Tahun' }}</strong>
+            </div>
+            <div class="card-body">
+                <canvas id="kgbBarChart" height="120"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <strong>Diagram Proporsi KGB</strong>
+            </div>
+            <div class="card-body">
+                <canvas id="kgbPieChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+
     <!-- Main content -->
        <div class="card">
                 <div class="card-header">
@@ -106,6 +131,46 @@
             </div>
 
         </div>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            
+        <script>
+    const labels = @json($labels);
+    const values = @json($values);
+
+    // BAR CHART
+    new Chart(document.getElementById('kgbBarChart'), {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Jumlah Pegawai',
+                data: values,
+                backgroundColor: '#28a745'
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: false }
+            }
+        }
+    });
+
+    // PIE CHART
+    new Chart(document.getElementById('kgbPieChart'), {
+        type: 'pie',
+        data: {
+            labels: labels,
+            datasets: [{
+                data: values,
+                backgroundColor: [
+                    '#007bff','#28a745','#ffc107',
+                    '#dc3545','#17a2b8','#6f42c1'
+                ]
+            }]
+        }
+    });
+</script>
 
     </section>
 </div>

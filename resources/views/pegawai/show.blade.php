@@ -76,7 +76,7 @@
                 </div>
                 <div class="col-md-6">
                     <label class="fw-semibold text-secondary">TMT Pangkat</label>
-                    <input type="text" class="form-control" value="{{ $pegawai->tmt_pangkat }}" readonly>
+                    <input type="text" class="form-control" value="{{ $pegawai->tmt_pangkat ? \Carbon\Carbon::parse($pegawai->tmt_pangkat)->format('d-m-Y') : '-' }}" readonly>
                 </div>
             </div>
 
@@ -87,12 +87,12 @@
             <div class="row g-3">
                 <div class="col-md-6">
                     <label class="fw-semibold text-secondary">Mulai Tanggal</label>
-                    <input type="text" class="form-control" value="{{ $pegawai->tmt_pangkat_01 }}" readonly>
+                    <input type="text" class="form-control" value="{{ $pegawai->tmt_pangkat_01 ? \Carbon\Carbon::parse($pegawai->tmt_pangkat_01)->format('d-m-Y') : '-' }}" readonly>
                 </div>
 
                 <div class="col-md-6">
                     <label class="fw-semibold text-secondary">Tanggal Mulai Berlaku Gaji</label>
-                    <input type="text" class="form-control" value="{{ $pegawai->tmt_kgb }}" readonly>
+                    <input type="text" class="form-control" value="{{ $pegawai->tmt_kgb ? \Carbon\Carbon::parse($pegawai->tmt_kgb)->format('d-m-Y') : '-' }}" readonly>
                 </div>
 
                 <div class="col-md-6">
@@ -112,7 +112,7 @@
 
                 <div class="col-md-6">
                     <label class="fw-semibold text-secondary">Tanggal</label>
-                    <input type="text" class="form-control" value="{{ $pegawai->tanggal }}" readonly>
+                    <input type="text" class="form-control" value="{{ $pegawai->tanggal ? \Carbon\Carbon::parse($pegawai->tanggal)->format('d-m-Y') : '-' }}" readonly>
                 </div>
 
                 <div class="col-md-6">
@@ -146,7 +146,7 @@
 
                 <div class="col-md-6">
                     <label class="fw-semibold text-secondary">Tanggal KGB Selanjutnya</label>
-                    <input type="text" class="form-control" value="{{ $pegawai->kgb_selanjutnya }}" readonly>
+                    <input type="text" class="form-control" value="{{ $pegawai->kgb_selanjutnya ? \Carbon\Carbon::parse($pegawai->kgb_selanjutnya)->format('d-m-Y') : '-' }}" readonly>
                 </div>
             </div>
 
