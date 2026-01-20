@@ -52,11 +52,11 @@
                             value="{{ old('masa_kerja_tahun', $pegawai->masa_kerja_tahun) }}" required>
                     </div>
                     
-                    <!-- Masa Kerja Tahun Selanjutnya -->
+                     <!-- Masa Kerja Bulan -->
                     <div class="col-md-6 mb-3">
-                        <label class="fw-semibold text-secondary">Masa Kerja (Tahun) Selanjutnya</label>
-                        <input type="number" name="mkg_tahun_selanjutnya" class="form-control" 
-                            value="{{ old('masa_kerja_tahun', $pegawai->mkg_tahun_selanjutnya) }}" required>
+                        <label class="fw-semibold text-secondary">Masa Kerja (Bulan)</label>
+                        <input type="number" name="masa_kerja_bulan" class="form-control" 
+                            value="{{ old('masa_kerja_bulan', $pegawai->masa_kerja_bulan) }}" required>
                     </div>
                     
                     <!-- Gaji Pokok Baru -->
@@ -69,12 +69,13 @@
                 <hr class="my-4">
 
                 <div class="row g-3">
-                    <!-- Masa Kerja Bulan -->
+                   <!-- Masa Kerja Tahun Selanjutnya -->
                     <div class="col-md-6 mb-3">
-                        <label class="fw-semibold text-secondary">Masa Kerja (Bulan)</label>
-                        <input type="number" name="masa_kerja_bulan" class="form-control" 
-                            value="{{ old('masa_kerja_bulan', $pegawai->masa_kerja_bulan) }}" required>
+                        <label class="fw-semibold text-secondary">Masa Kerja (Tahun) Selanjutnya</label>
+                        <input type="number" name="mkg_tahun_selanjutnya" class="form-control" 
+                            value="{{ old('masa_kerja_tahun', $pegawai->mkg_tahun_selanjutnya) }}" required>
                     </div>
+                    
                     <!-- Masa Kerja Bulan Selanjutnya -->
                     <div class="col-md-6 mb-3">
                         <label class="fw-semibold text-secondary">Masa Kerja (Bulan) Selanjutnya</label>
