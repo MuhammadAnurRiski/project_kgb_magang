@@ -24,7 +24,55 @@
             </div>
         </div>
     </section>
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="small-box bg-info">
+            <div class="inner">
+                <h3>{{ $totalPegawai }}</h3>
+                <p>Total Pegawai</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-users"></i>
+            </div>
+        </div>
+    </div>
 
+    <div class="col-md-3">
+        <div class="small-box bg-success">
+            <div class="inner">
+                <h3>{{ $totalKgb }}</h3>
+                <p>Total KGB {{ $selectedYear ?? '' }}</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-money-bill-wave"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="small-box bg-warning">
+            <div class="inner">
+                <h3>{{ $maxKgb['jumlah_pegawai'] ?? 0 }}</h3>
+                <p>KGB Terbanyak ({{ $maxKgb['bulan'] ?? '-' }})</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-arrow-up"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="small-box bg-danger">
+            <div class="inner">
+                <h3>{{ $minKgb['jumlah_pegawai'] ?? 0 }}</h3>
+                <p>KGB Tersedikit ({{ $minKgb['bulan'] ?? '-' }})</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-arrow-down"></i>
+            </div>
+        </div>
+    </div>
+</div>
     <div class="row mb-4">
     <div class="col-md-8">
         <div class="card">
@@ -94,36 +142,52 @@
                             <tr>
                                 <th>Bulan</th>
                                 <th>Jumlah Pegawai KGB</th>
-                                <th>Aksi</th>
+                                @if ($selectedYear)
+                        <th>Aksi</th>
+                                @endif  
                             </tr>
                         </thead>
 
                         <tbody>
-                            @foreach ($kgbData as $data)
-                                <tr>
-                                    <td>{{ $data['bulan'] }}</td>
+@foreach ($kgbData as $data)
+    <tr>
+        <td>{{ $data['bulan'] }}</td>
 
-                                    <td class="text-center">
-                                        {{ $data['jumlah_pegawai'] }}
-                                    </td>
+        <td class="text-center">
+            {{ $data['jumlah_pegawai'] }}
+        </td>
 
-                                    <td class="text-center">
-                                        <a href="{{ route('dashboard.detail', ['bulan' => $data['bulan'], 'year' => $selectedYear]) }}"
-                                           class="btn btn-success btn-sm">
-                                            <i class="fas fa-eye mr-1"></i> Detail
-                                        </a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
+        @if ($selectedYear)
+            <td class="text-center">
+                @if ($data['jumlah_pegawai'] > 0)
+                    <a href="{{ route('dashboard.detail', [
+                        'bulan' => $data['bulan'],
+                        'year' => $selectedYear
+                    ]) }}"
+                       class="btn btn-success btn-sm">
+                        <i class="fas fa-eye mr-1"></i> Detail
+                    </a>
+                @else
+                    <span class="text-muted">-</span>
+                @endif
+            </td>
+        @endif
+    </tr>
+@endforeach
+</tbody>
+
 
                         <tfoot class="bg-light font-weight-bold">
-                            <tr>
-                                <th>Total Pegawai</th>
-                                <th class="text-center">{{ $totalPegawai }}</th>
-                                <th></th>
-                            </tr>
-                        </tfoot>
+                    <tr>
+                    <th>Total KGB</th>
+             <th class="text-center">{{ $totalKgb }}</th>
+
+                 @if ($selectedYear)
+             <th></th>
+            @endif
+        </tr>
+            </tfoot>
+
 
                     </table>
 
@@ -137,19 +201,44 @@
     const labels = @json($labels);
     const values = @json($values);
 
+    // 🎨 WARNA KONSISTEN (URUT SESUAI BULAN)
+    const chartColors = [
+        '#007bff', // Januari
+        '#28a745', // Februari
+        '#ffc107', // Maret
+        '#dc3545', // April
+        '#17a2b8', // Mei
+        '#6f42c1', // Juni
+        '#fd7e14', // Juli
+        '#20c997', // Agustus
+        '#6610f2', // September
+        '#e83e8c', // Oktober
+        '#6c757d', // November
+        '#343a40'  // Desember
+    ];
+
     // BAR CHART
-    new Chart(document.getElementById('kgbBarChart'), {
+           new Chart(document.getElementById('kgbBarChart'), {
         type: 'bar',
         data: {
             labels: labels,
             datasets: [{
                 label: 'Jumlah Pegawai',
                 data: values,
-                backgroundColor: '#28a745'
+                backgroundColor: chartColors // ✅ beda warna tiap bulan
             }]
         },
         options: {
             responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1,
+                        precision: 0
+                    }
+                }
+            },
             plugins: {
                 legend: { display: false }
             }
@@ -157,16 +246,13 @@
     });
 
     // PIE CHART
-    new Chart(document.getElementById('kgbPieChart'), {
+       new Chart(document.getElementById('kgbPieChart'), {
         type: 'pie',
         data: {
             labels: labels,
             datasets: [{
                 data: values,
-                backgroundColor: [
-                    '#007bff','#28a745','#ffc107',
-                    '#dc3545','#17a2b8','#6f42c1'
-                ]
+                backgroundColor: chartColors // ✅ sinkron
             }]
         }
     });

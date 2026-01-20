@@ -9,7 +9,7 @@ use App\Models\PejabatPenetap;
 use App\Models\JabatanPejabatPenetap;
 use App\Models\Gaji;
 use App\Models\PangkatGolongan;
-
+use Illuminate\Support\Facades\DB;
 
 class PegawaiController extends Controller
 {
@@ -179,7 +179,6 @@ public function updateKGB(Request $request, $id)
 
     return redirect()->route('pegawai.index')->with('success', 'Data KGB berhasil diperbarui.');
 }
-
 
 
     //delete

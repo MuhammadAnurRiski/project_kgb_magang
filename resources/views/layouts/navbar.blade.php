@@ -31,12 +31,26 @@
         <a class="nav-link" data-widget="fullscreen" href="#" role="button">
           <i class="fas fa-expand-arrows-alt"></i>
         </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-controlsidebar-slide="true" href="#" role="button">
-          <i class="fas fa-th-large"></i>
-        </a>
-      </li>
+      <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
+        <i class="far fa-user-circle"></i>
+        @auth
+            <span class="d-none d-md-inline">{{ Auth::user()->name }}</span>
+        @endauth
+    </a>
+
+    <div class="dropdown-menu dropdown-menu-right">
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit" class="dropdown-item text-danger">
+                <i class="fas fa-sign-out-alt mr-2"></i> Logout
+            </button>
+        </form>
+    </div>
+</li>
+
+
+
     </ul>
   </nav>
   <!-- /.navbar -->

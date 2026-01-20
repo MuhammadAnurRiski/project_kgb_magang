@@ -54,15 +54,27 @@ class DashboardController extends Controller
             $labels[] = $name;
             $values[] = $jumlah;
         }
+        $totalPegawai = Pegawai::count();
+        $totalKgb = collect($kgbData)->sum('jumlah_pegawai');
+        
+        $filteredKgb = collect($kgbData)->where('jumlah_pegawai', '>', 0);
+        
+        $maxKgb = $filteredKgb->sortByDesc('jumlah_pegawai')->first();
+        $minKgb = $filteredKgb->sortBy('jumlah_pegawai')->first();
 
-        return view('dashboard.index', compact(
-            'kgbData',
-            'totalPegawai',
-            'availableYears',
-            'selectedYear',
-            'labels',
-            'values'
-        ));
+
+       return view('dashboard.index', compact(
+    'labels',
+    'values',
+    'kgbData',
+    'availableYears',
+    'selectedYear',
+    'totalPegawai',
+    'totalKgb',
+    'maxKgb',
+    'minKgb'
+));
+
     }
 
     public function detail(Request $request)
