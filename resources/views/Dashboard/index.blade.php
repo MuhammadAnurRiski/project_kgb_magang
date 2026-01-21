@@ -176,7 +176,6 @@
 @endforeach
 </tbody>
 
-
                         <tfoot class="bg-light font-weight-bold">
                     <tr>
                     <th>Total KGB</th>

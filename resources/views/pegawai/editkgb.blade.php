@@ -32,17 +32,18 @@
                         <input type="text" name="no_sk" class="form-control" 
                             value="{{ old('no_sk', $pegawai->no_sk) }}" required>
                     </div>
-                    <!-- Tanggal KGB Sebelumnya (TMT Pangkat) -->
+                   <!-- Tanggal -->
                     <div class="col-md-6 mb-3">
-                        <label class="fw-semibold text-secondary">Mulai Tanggal</label>
-                        <input type="date" name="tmt_pangkat_01" class="form-control" 
-                            value="{{ old('tmt_pangkat_01', $pegawai->tmt_pangkat_01) }}">
+                        <label class="fw-semibold text-secondary">Tanggal</label>
+                        <input type="date" name="tanggal" class="form-control" 
+                        value="{{ old('tanggal', optional($pegawai->tanggal)->format('Y-m-d')) }}">
                     </div>
+
                     <!-- Tanggal KGB Sekarang -->
                     <div class="col-md-6 mb-3">
                         <label class="fw-semibold text-secondary">Tanggal Mulai Berlaku Gaji</label>
                         <input type="date" name="tmt_kgb" class="form-control" 
-                            value="{{ old('tmt_kgb', $pegawai->tmt_kgb) }}" required>
+                            value="{{ old('tmt_kgb', optional($pegawai->tmt_kgb)->format('Y-m-d')) }}">
                     </div>
 
                     <!-- Masa Kerja Tahun -->
@@ -82,19 +83,18 @@
                         <input type="number" name="mkg_bulan_selanjutnya" class="form-control" 
                             value="{{ old('masa_kerja_bulan', $pegawai->mkg_bulan_selanjutnya) }}" required>
                     </div>
-
-                    <!-- Tanggal -->
+                     <!-- Tanggal KGB Sebelumnya (TMT Pangkat) -->
                     <div class="col-md-6 mb-3">
-                        <label class="fw-semibold text-secondary">Tanggal</label>
-                        <input type="date" name="tanggal" class="form-control" 
-                        value="{{ old('tanggal', $pegawai->tanggal) }}" required>
+                        <label class="fw-semibold text-secondary">Mulai Tanggal</label>
+                        <input type="date" name="tmt_pangkat_01" class="form-control" 
+                            value="{{ old('tmt_pangkat_01', optional($pegawai->tmt_pangkat_01)->format('Y-m-d')) }}">
                     </div>
                     
                     <!-- KGB Selanjutnya -->
                     <div class="col-md-6 mb-3">
                         <label class="fw-semibold text-secondary">Tanggal KGB Selanjutnya</label>
                         <input type="date" name="kgb_selanjutnya" class="form-control" 
-                            value="{{ old('kgb_selanjutnya', $pegawai->kgb_selanjutnya) }}" required> 
+                            value="{{ old('kgb_selanjutnya', optional($pegawai->kgb_selanjutnya)->format('Y-m-d')) }}"> 
                     </div>
 
                     <!-- Pejabat Penetap -->
